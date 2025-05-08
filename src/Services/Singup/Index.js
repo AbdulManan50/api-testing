@@ -2,7 +2,7 @@ import axios from "axios";
 import routes from "../../configs/api";
 
 export const singup = (loginData) => {
-  const singupurl = routes.LOGIN;
+  const singupurl = routes.SINGUP;
 
   return axios
     .post(singupurl, loginData)
