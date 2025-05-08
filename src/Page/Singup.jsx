@@ -28,9 +28,7 @@ const Singup = () => {
     }
   };
 
-  const showpasswordemial = () => {
-    setshowpassword(!showpassword);
-  };
+  
 
   return (
     <>
@@ -108,7 +106,10 @@ const Singup = () => {
                   placeholder="Create a password"
                   required
                 />
-                <span className="cursor-pointer" onClick={showpasswordemial}>
+                <span
+                  className="cursor-pointer"
+                  onClick={() => setshowpassword(!showpassword)}
+                >
                   {showpassword ? <FaEye /> : <FaEyeSlash />}
                 </span>
               </div>
