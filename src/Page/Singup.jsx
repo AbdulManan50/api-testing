@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import { singup } from "../Services/Singup/Index";
+import { Link } from "react-router-dom";
+import { FaEye } from "react-icons/fa6";
+import { FaEyeSlash } from "react-icons/fa6";
 
 const Singup = () => {
   const [userName, setUsername] = useState("");
@@ -7,17 +10,26 @@ const Singup = () => {
   const [password, Setpassword] = useState("");
   const [error, seterror] = useState(null);
   const [success, setSuccess] = useState(null);
+  const [showpassword, setshowpassword] = useState(false);
 
   const handelsumbit = async (e) => {
     e.preventDefault();
     try {
-      const response = await singup({ username: userName, email: emial, password });
+      const response = await singup({
+        username: userName,
+        email: emial,
+        password,
+      });
       console.log("login succesful ", response);
       setSuccess;
     } catch (err) {
       console.error("Signup Error:", err);
       seterror;
     }
+  };
+
+  const showpasswordemial = () => {
+    setshowpassword(!showpassword);
   };
 
   return (
@@ -37,8 +49,6 @@ const Singup = () => {
             {success && (
               <p className="text-xl text-green-500">sing up successful</p>
             )}
-
-            {/* Username */}
             <div>
               <label
                 htmlFor="username"
@@ -58,8 +68,6 @@ const Singup = () => {
                 required
               />
             </div>
-
-            {/* Email */}
             <div>
               <label
                 htmlFor="email"
@@ -67,20 +75,20 @@ const Singup = () => {
               >
                 Email
               </label>
-              <input
-                value={emial}
-                onChange={(e) => {
-                  setEmail(e.target.value);
-                }}
-                type="email"
-                id="email"
-                className="w-full border border-gray-300 focus:ring-2 focus:ring-purple-400 focus:outline-none rounded-lg px-4 py-2 transition duration-200"
-                placeholder="Enter your email"
-                required
-              />
+              <div>
+                <input
+                  value={emial}
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                  }}
+                  type="email"
+                  id="email"
+                  className="w-full border border-gray-300 focus:ring-2 focus:ring-purple-400 focus:outline-none rounded-lg px-4 py-2 transition duration-200"
+                  placeholder="Enter your email"
+                  required
+                />
+              </div>
             </div>
-
-            {/* Password */}
             <div>
               <label
                 htmlFor="password"
@@ -88,20 +96,23 @@ const Singup = () => {
               >
                 Password
               </label>
-              <input
-                value={password}
-                onChange={(e) => {
-                  Setpassword(e.target.value);
-                }}
-                type="password"
-                id="password"
-                className="w-full border border-gray-300 focus:ring-2 focus:ring-purple-400 focus:outline-none rounded-lg px-4 py-2 transition duration-200"
-                placeholder="Create a password"
-                required
-              />
+              <div className="w-full border border-gray-300 focus:ring-2 focus:ring-purple-400 focus:outline-none rounded-lg px-4 py-2 transition duration-200 flex items-center">
+                <input
+                  value={password}
+                  onChange={(e) => {
+                    Setpassword(e.target.value);
+                  }}
+                  type={showpassword ? "password" : "text"}
+                  id="password"
+                  className="w-full"
+                  placeholder="Create a password"
+                  required
+                />
+                <span className="cursor-pointer" onClick={showpasswordemial}>
+                  {showpassword ? <FaEye /> : <FaEyeSlash />}
+                </span>
+              </div>
             </div>
-
-            {/* Button */}
             <button
               type="submit"
               className="w-full bg-purple-600 hover:bg-purple-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-300 cursor-pointer"
@@ -109,13 +120,16 @@ const Singup = () => {
               Sign Up
             </button>
           </form>
-
-          {/* Already have an account */}
           <p className="mt-6 text-center text-sm text-gray-600">
             Already have an account?{" "}
-            <a href="#" className="text-purple-600 hover:underline font-medium">
-              Log in
-            </a>
+            <Link to="/login">
+              <span
+                href="#"
+                className="text-purple-600 hover:underline font-medium"
+              >
+                Log in
+              </span>
+            </Link>
           </p>
         </div>
       </div>
