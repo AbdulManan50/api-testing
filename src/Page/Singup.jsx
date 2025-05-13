@@ -38,7 +38,6 @@ const Signup = () => {
         password,
       });
       navigate("/login");
-      errors(false);
     } catch (err) {
       console.error("Signup Error:", err);
       errors(false);

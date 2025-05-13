@@ -2,6 +2,7 @@ import React from "react";
 import Login from "./Page/Login";
 import Singup from "./Page/Singup";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Home from "./Page/Home";
 
 export default function App() {
   return (
@@ -10,6 +11,7 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Singup />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/home" element={<Home />} />
         </Routes>
       </BrowserRouter>
     </>
