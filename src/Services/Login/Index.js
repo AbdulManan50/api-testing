@@ -7,9 +7,12 @@ export const Login = (loginData) => {
   return axios
     .post(loginUrl, loginData)
     .then((res) => {
-      res.data;
+      console.log("Helo", res)
+      return res.data;
     })
     .catch((err) => {
-      err;
+      console.log("Helo", err.response)
+      
+      return err.response  ;
     });
 };

@@ -3,6 +3,7 @@ import { singup } from "../Services/Singup/Index";
 import { Link, useNavigate } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa6";
 import { singupcheema } from "../Services/Scheema/Index";
+import { toast } from "react-toastify";
 
 
 const Signup = () => {
@@ -37,6 +38,7 @@ const Signup = () => {
         email,
         password,
       });
+      toast.success('sign up successfully')
       navigate("/login");
     } catch (err) {
       console.error("Signup Error:", err);

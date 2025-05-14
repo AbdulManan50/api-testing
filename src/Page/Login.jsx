@@ -2,12 +2,15 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Login } from "../Services/Login/Index";
 import { FaEye, FaEyeSlash } from "react-icons/fa6";
+import { toast } from 'react-toastify';
+
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
   const [showPassword, setShowPassword] = useState(false);
 
   const navigate = useNavigate();
@@ -19,15 +22,22 @@ const LoginPage = () => {
 
     try {
       const response = await Login({ email, password });
-      setLoading(false);
-      navigate("/home");
-    } catch (err) {
-      setLoading(false);
-      setError(true);
-    }
-  };
 
-  
+      if (response.token) {
+        navigate("/home");
+        setLoading(false);
+        toast.success('Login successfully')
+      }
+      else {
+        throw (response.data)
+      }
+    } catch (err) {
+      setError(true);
+      toast.error(err.error)
+      setLoading(false)
+    }
+
+  };
 
   return (
     <div className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 min-h-screen flex items-center justify-center px-4">
@@ -35,10 +45,9 @@ const LoginPage = () => {
         <h2 className="text-3xl font-bold text-center text-gray-800 mb-6">
           Welcome Back
         </h2>
-
         <form onSubmit={handleSubmit} className="space-y-5">
           {loading && <p>Loading...</p>}
-          {error && <p className="text-red-500">Login failed. Try again.</p>}
+          {errorMessage && <p className="text-red-500">{errorMessage}</p>}
 
           <div>
             <label className="block mb-1 text-gray-600 font-medium">
