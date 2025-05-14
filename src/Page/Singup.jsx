@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { singup } from "../Services/Singup/Index";
 import { Link, useNavigate } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa6";
 import { singupcheema } from "../Services/Scheema/Index";
 import { toast } from "react-toastify";
-
+import { useAuth } from "../context/AuthContext";
 
 const Signup = () => {
   const [username, setUsername] = useState("");
@@ -14,6 +14,14 @@ const Signup = () => {
   const [errors, setErrors] = useState({});
 
   const navigate = useNavigate();
+  const { user } = useAuth();
+
+  // Redirect if user is already logged in
+  useEffect(() => {
+    if (user) {
+      navigate('/home');
+    }
+  }, [user, navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -31,20 +39,26 @@ const Signup = () => {
     }
     setErrors({});
 
-    console.log("result", result);
     try {
       const response = await singup({
         username,
         email,
         password,
       });
-      toast.success('sign up successfully')
+      toast.success('Sign up successful');
       navigate("/login");
     } catch (err) {
       console.error("Signup Error:", err);
-      errors(false);
+      toast.error('Signup failed');
     }
   };
+
+  // If user is already logged in, show loading while redirecting
+  if (user) {
+    return <div className="min-h-screen flex items-center justify-center">
+      <p>Redirecting...</p>
+    </div>;
+  }
 
   return (
     <div className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 min-h-screen flex items-center justify-center px-4">

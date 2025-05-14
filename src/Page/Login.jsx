@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Login } from "../Services/Login/Index";
 import { FaEye, FaEyeSlash } from "react-icons/fa6";
 import { toast } from 'react-toastify';
-
+import { useAuth } from "../context/AuthContext";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
@@ -14,6 +14,14 @@ const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
 
   const navigate = useNavigate();
+  const { login, user } = useAuth();
+
+  // Redirect if user is already logged in
+  useEffect(() => {
+    if (user) {
+      navigate('/home');
+    }
+  }, [user, navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -24,20 +32,30 @@ const LoginPage = () => {
       const response = await Login({ email, password });
 
       if (response.token) {
+        // Store the authentication data using the context
+        login({
+          token: response.token,
+          user: response.user
+        });
+        toast.success('Login successful');
         navigate("/home");
-        setLoading(false);
-        toast.success('Login successfully')
-      }
-      else {
-        throw (response.data)
+      } else {
+        throw new Error(response.data || 'Login failed');
       }
     } catch (err) {
       setError(true);
-      toast.error(err.error)
-      setLoading(false)
+      toast.error(err.message || 'Login failed');
+    } finally {
+      setLoading(false);
     }
-
   };
+
+  // If user is already logged in, show loading while redirecting
+  if (user) {
+    return <div className="min-h-screen flex items-center justify-center">
+      <p>Redirecting...</p>
+    </div>;
+  }
 
   return (
     <div className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 min-h-screen flex items-center justify-center px-4">

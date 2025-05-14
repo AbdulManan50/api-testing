@@ -1,20 +1,25 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 const Home = () => {
+  const navigate = useNavigate();
+  const { logout } = useAuth();
 
-  const naviaget = useNavigate()
-
-  const handelLogout = () => {
-    localStorage.removeItem("token");
-    naviaget("/login")
-  }
-
+  const handleLogout = () => {
+    logout(); // This will clear both the context state and localStorage
+    navigate("/login");
+  };
 
   return (
     <div className="w-full h-screen bg-black flex flex-col justify-around items-center">
       <h1 className="text-5xl font-bold text-white text-center">Home</h1>
-      <button onClick={handelLogout} className="px-5 py-2 text-white bg-red-500 rounded-2xl cursor-pointer" >Log Out</button>
+      <button 
+        onClick={handleLogout} 
+        className="px-5 py-2 text-white bg-red-500 rounded-2xl cursor-pointer hover:bg-red-600 transition-colors"
+      >
+        Log Out
+      </button>
     </div>
   );
 };
