@@ -16,7 +16,6 @@ const LoginPage = () => {
   const navigate = useNavigate();
   const { login, user } = useAuth();
 
-  // Redirect if user is already logged in
   useEffect(() => {
     if (user) {
       navigate('/home');
@@ -32,7 +31,6 @@ const LoginPage = () => {
       const response = await Login({ email, password });
 
       if (response.token) {
-        // Store the authentication data using the context
         login({
           token: response.token,
           user: response.user
@@ -40,7 +38,7 @@ const LoginPage = () => {
         toast.success('Login successful');
         navigate("/home");
       } else {
-        throw new Error(response.data || 'Login failed');
+        throw new Error(response.data.error || 'Login failed');
       }
     } catch (err) {
       setError(true);
@@ -51,11 +49,11 @@ const LoginPage = () => {
   };
 
   // If user is already logged in, show loading while redirecting
-  if (user) {
-    return <div className="min-h-screen flex items-center justify-center">
-      <p>Redirecting...</p>
-    </div>;
-  }
+  // if (user) {
+  //   return <div className="min-h-screen flex items-center justify-center">
+  //     <p>Redirecting...</p>
+  //   </div>;
+  // }
 
   return (
     <div className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 min-h-screen flex items-center justify-center px-4">

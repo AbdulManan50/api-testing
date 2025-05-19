@@ -7,7 +7,7 @@ const Home = () => {
   const { logout } = useAuth();
 
   const handleLogout = () => {
-    logout(); // This will clear both the context state and localStorage
+    logout(); 
     navigate("/login");
   };
 
