@@ -11,7 +11,7 @@ export const PublicRoute = ({ children }) => {
   }
 
   if (user) {
-    // Redirect to home if user is already authenticated
+    
     return <Navigate to="/home" replace />;
   }
 

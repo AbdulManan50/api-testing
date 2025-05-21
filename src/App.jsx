@@ -37,7 +37,6 @@ export default function App() {
               </AuthGuard>
             }
           />
-          {/* Catch-all route for undefined paths */}
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

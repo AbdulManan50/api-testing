@@ -1,4 +1,3 @@
-// src/context/AuthContext.js
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
 const AuthContext = createContext(null);
@@ -8,10 +7,9 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Check if user is logged in (e.g., check localStorage or token)
+
     const token = localStorage.getItem('token');
     if (token) {
-      // You can validate the token here if needed
       setUser({ token });
     }
     setLoading(false);

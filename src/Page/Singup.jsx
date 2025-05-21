@@ -16,7 +16,7 @@ const Signup = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
 
-  // Redirect if user is already logged in
+ 
   useEffect(() => {
     if (user) {
       navigate('/home');
@@ -53,7 +53,7 @@ const Signup = () => {
     }
   };
 
-  // If user is already logged in, show loading while redirecting
+  
   if (user) {
     return <div className="min-h-screen flex items-center justify-center">
       <p>Redirecting...</p>

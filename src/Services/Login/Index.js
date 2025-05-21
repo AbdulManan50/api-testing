@@ -8,7 +8,7 @@ export const Login = (loginData) => {
     .post(loginUrl, loginData)
     .then((res) => {
       console.log("Helo", res)
-      return res.data;
+      return res.data;s
     })
     .catch((err) => {
       console.log("Helo", err.response)
