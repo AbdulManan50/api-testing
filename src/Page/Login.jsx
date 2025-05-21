@@ -48,13 +48,6 @@ const LoginPage = () => {
     }
   };
 
-  // If user is already logged in, show loading while redirecting
-  // if (user) {
-  //   return <div className="min-h-screen flex items-center justify-center">
-  //     <p>Redirecting...</p>
-  //   </div>;
-  // }
-
   return (
     <div className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 min-h-screen flex items-center justify-center px-4">
       <div className="bg-white p-8 rounded-2xl shadow-2xl w-full max-w-md">
