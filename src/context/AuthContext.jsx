@@ -1,32 +1,30 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { loginUser as reduxLoginUser, logoutUser as reduxLogoutUser } from '../Store/LoginSlice';
 
 const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const { user, token } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-
-    const token = localStorage.getItem('token');
-    if (token) {
-      setUser({ token });
-    }
+    // Just check if loading is done, we don't need to set user here
+    // as it's managed by Redux
     setLoading(false);
   }, []);
 
   const login = (userData) => {
-    setUser(userData);
-    localStorage.setItem('token', userData.token);
+    dispatch(reduxLoginUser(userData));
   };
 
   const logout = () => {
-    setUser(null);
-    localStorage.removeItem('token');
+    dispatch(reduxLogoutUser());
   };
 
   return (
-    <AuthContext.Provider value={{ user, loading, login, logout }}>
+    <AuthContext.Provider value={{ user, token, loading, login, logout }}>
       {!loading && children}
     </AuthContext.Provider>
   );

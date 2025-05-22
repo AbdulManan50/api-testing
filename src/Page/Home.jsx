@@ -7,8 +7,8 @@ const Home = () => {
   const { logout } = useAuth();
 
   const handleLogout = () => {
-    logout(); 
-    navigate("/login");
+    logout();
+    // No need to navigate as the AuthGuard will handle redirection
   };
 
   return (

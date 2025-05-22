@@ -2,31 +2,28 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa6";
 import { toast } from 'react-toastify';
-import { useDispatch, useSelector } from "react-redux";
-import { loginUser } from "../Store/LoginSlice";
+import { useSelector } from "react-redux";
+import { useAuth } from "../context/AuthContext";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
-  const dispatch = useDispatch();
   const navigate = useNavigate();
-
+  const { login } = useAuth();
   const { user, loading, error, token } = useSelector((state) => state.auth);
 
   useEffect(() => {
     if (user && token) {
       toast.success("Login successful");
-      console.log("Token", token)
       navigate("/home");
     }
   }, [user, token, navigate]);
 
   const handleSubmit = (e) => {
-   
     e.preventDefault();
-    dispatch(loginUser({ email, password }));
+    login({ email, password });
   };
 
   return (
