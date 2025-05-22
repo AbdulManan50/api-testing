@@ -1,51 +1,32 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Login } from "../Services/Login/Index";
 import { FaEye, FaEyeSlash } from "react-icons/fa6";
 import { toast } from 'react-toastify';
-import { useAuth } from "../context/AuthContext";
+import { useDispatch, useSelector } from "react-redux";
+import { loginUser } from "../Store/LoginSlice";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
   const [showPassword, setShowPassword] = useState(false);
 
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { login, user } = useAuth();
+
+  const { user, loading, error, token } = useSelector((state) => state.auth);
 
   useEffect(() => {
-    if (user) {
-      navigate('/home');
+    if (user && token) {
+      toast.success("Login successful");
+      console.log("Token", token)
+      navigate("/home");
     }
-  }, [user, navigate]);
+  }, [user, token, navigate]);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
+   
     e.preventDefault();
-    setLoading(true);
-    setError(false);
-
-    try {
-      const response = await Login({ email, password });
-
-      if (response.token) {
-        login({
-          token: response.token,
-          user: response.user
-        });
-        toast.success('Login successful');
-        navigate("/home");
-      } else {
-        throw new Error(response.data.error || 'Login failed');
-      }
-    } catch (err) {
-      setError(true);
-      toast.error(err.message || 'Login failed');
-    } finally {
-      setLoading(false);
-    }
+    dispatch(loginUser({ email, password }));
   };
 
   return (
@@ -55,13 +36,15 @@ const LoginPage = () => {
           Welcome Back
         </h2>
         <form onSubmit={handleSubmit} className="space-y-5">
-          {loading && <p>Loading...</p>}
-          {errorMessage && <p className="text-red-500">{errorMessage}</p>}
+          {loading && <p className="text-indigo-600 text-sm">Loading...</p>}
+          {error && (
+            <p className="text-red-500 text-sm">
+              {typeof error === "string" ? error : "Login failed"}
+            </p>
+          )}
 
           <div>
-            <label className="block mb-1 text-gray-600 font-medium">
-              Email
-            </label>
+            <label className="block mb-1 text-gray-600 font-medium">Email</label>
             <input
               onChange={(e) => setEmail(e.target.value)}
               value={email}
@@ -73,9 +56,7 @@ const LoginPage = () => {
           </div>
 
           <div>
-            <label className="block mb-1 text-gray-600 font-medium">
-              Password
-            </label>
+            <label className="block mb-1 text-gray-600 font-medium">Password</label>
             <div className="flex items-center border border-gray-300 focus-within:ring-2 focus-within:ring-purple-400 focus-within:outline-none rounded-lg px-4 py-2 transition duration-200">
               <input
                 onChange={(e) => setPassword(e.target.value)}
