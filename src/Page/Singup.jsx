@@ -5,6 +5,7 @@ import { FaEye, FaEyeSlash } from "react-icons/fa6";
 import { singupcheema } from "../Services/Scheema/Index";
 import { toast } from "react-toastify";
 import { useAuth } from "../context/AuthContext";
+import Google from "../Component/Google";
 
 const Signup = () => {
   const [username, setUsername] = useState("");
@@ -16,10 +17,9 @@ const Signup = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
 
- 
   useEffect(() => {
     if (user) {
-      navigate('/home');
+      navigate("/home");
     }
   }, [user, navigate]);
 
@@ -45,19 +45,20 @@ const Signup = () => {
         email,
         password,
       });
-      toast.success('Sign up successful');
+      toast.success("Sign up successful");
       navigate("/login");
     } catch (err) {
       console.error("Signup Error:", err);
-      toast.error('Signup failed');
+      toast.error("Signup failed");
     }
   };
 
-  
   if (user) {
-    return <div className="min-h-screen flex items-center justify-center">
-      <p>Redirecting...</p>
-    </div>;
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <p>Redirecting...</p>
+      </div>
+    );
   }
 
   return (
@@ -146,6 +147,8 @@ const Signup = () => {
             Sign Up
           </button>
         </form>
+
+        <Google />
 
         <p className="mt-6 text-center text-sm text-gray-600">
           Already have an account?{" "}
