@@ -4,6 +4,7 @@ import { FaEye, FaEyeSlash } from "react-icons/fa6";
 import { toast } from 'react-toastify';
 import { useSelector } from "react-redux";
 import { useAuth } from "../context/AuthContext";
+import Google from "../Component/Google";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
@@ -79,6 +80,7 @@ const LoginPage = () => {
             Log In
           </button>
         </form>
+        <Google />
 
         <p className="mt-6 text-center text-sm text-gray-600">
           Don't have an account?{" "}

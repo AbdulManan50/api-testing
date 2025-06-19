@@ -8,11 +8,11 @@ export const Login = (loginData) => {
     .post(loginUrl, loginData)
     .then((res) => {
       console.log("Helo", res)
-      return res.data;s
+      return res.data;
     })
     .catch((err) => {
       console.log("Helo", err.response)
       
-      return err.response  ;
+      return err.response;
     });
 };
